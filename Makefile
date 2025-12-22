@@ -1,6 +1,5 @@
 .PHONY: all clean fclean re compile_commands
 
-# Find all Makefiles in subdirectories
 MAKEFILES := $(shell find . -mindepth 2 -name "Makefile" -type f)
 DIRS := $(dir $(MAKEFILES))
 
