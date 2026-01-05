@@ -10,3 +10,6 @@
 [submodule "CPP_Module_03"]
 	path = CPP_Module_03
 	url = git@github.com:Primoux/CPP_Module_03.git
+[submodule "CPP_Module_04"]
+	path = CPP_Module_04
+	url = git@github.com:Primoux/CPP_Module_04.git
