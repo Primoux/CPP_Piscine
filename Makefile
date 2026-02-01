@@ -3,6 +3,9 @@
 MAKEFILES := $(shell find . -mindepth 2 -name "Makefile" -type f)
 DIRS := $(dir $(MAKEFILES))
 
+CC := c++
+CFLAGS := -std=c++98 -Wall -Wextra -Werror
+
 all:
 	@for dir in $(DIRS); do \
 		echo "Building in $$dir"; \
@@ -20,11 +23,30 @@ fclean:
 		echo "Full cleaning in $$dir"; \
 		$(MAKE) -C $$dir fclean --no-print-directory; \
 	done
+	rm -rf compile_commands.json
 
 re: fclean all
 
-compile_commands:
-	@for dir in $(DIRS); do \
-		echo "Generating compile_commands.json in $$dir"; \
-		$(MAKE) -C $$dir compile_commands.json --no-print-directory; \
+compile_commands: compile_commands.json
+
+compile_commands.json:
+	@echo "Generating compile_commands.json at root..."
+	@echo '[' > $@
+	@first=1; \
+	for src in $$(find . -name '*.cpp' -type f | grep -v '.build'); do \
+		exercise_dir=$$(echo $$src | sed 's|\(./CPP_Module_[0-9]*/ex[0-9]*/\).*|\1|'); \
+		if [ -d "$${exercise_dir}inc" ]; then \
+			inc="-I $${exercise_dir}inc"; \
+		else \
+			inc=""; \
+		fi; \
+		if [ $$first -eq 1 ]; then \
+			first=0; \
+		else \
+			echo ',' >> $@; \
+		fi; \
+		printf '  {"directory": "%s", "command": "$(CC) $(CFLAGS) %s -c %s", "file": "%s"}' "$$(pwd)" "$$inc" "$$src" "$$src" >> $@; \
 	done
+	@echo '' >> $@
+	@echo ']' >> $@
+	@echo "compile_commands.json generated successfully!"
