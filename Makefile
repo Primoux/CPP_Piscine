@@ -24,6 +24,7 @@ fclean:
 		$(MAKE) -C $$dir fclean --no-print-directory; \
 	done
 	rm -rf compile_commands.json
+	rm -rf .cache/
 
 re: fclean all
 
