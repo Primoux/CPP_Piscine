@@ -25,7 +25,7 @@ fclean:
 	done
 	rm -rf compile_commands.json
 
-re: fclean all
+re: fclean all compile_commands.json
 
 compile_commands: compile_commands.json
 
