@@ -31,22 +31,20 @@ compile_commands: compile_commands.json
 
 compile_commands.json:
 	@echo "Generating compile_commands.json at root..."
+	@rm -f $@
 	@echo '[' > $@
 	@first=1; \
 	for src in $$(find . -name '*.cpp' -type f | grep -v '.build'); do \
-		exercise_dir=$$(echo $$src | sed 's|\(./CPP_Module_[0-9]*/ex[0-9]*/\).*|\1|'); \
-		if [ -d "$${exercise_dir}inc" ]; then \
-			inc="-I $${exercise_dir}inc"; \
-		else \
-			inc=""; \
-		fi; \
+		inc="-I$$(dirname $$src)/inc"; \
+		for classdir in $$(find $$(dirname $$src) -path '*/class/*' -type d 2>/dev/null); do \
+			inc="$$inc -I$$classdir"; \
+		done; \
 		if [ $$first -eq 1 ]; then \
 			first=0; \
 		else \
 			echo ',' >> $@; \
 		fi; \
-		printf '  {"directory": "%s", "command": "$(CC) $(CFLAGS) %s -c %s", "file": "%s"}' "$$(pwd)" "$$inc" "$$src" "$$src" >> $@; \
+		printf '  {"directory": "%s", "command": "c++ -std=c++98 -Wall -Wextra -Werror %s -c %s", "file": "%s"}\n' "$(PWD)" "$$inc" "$$src" "$$src" >> $@; \
 	done
-	@echo '' >> $@
 	@echo ']' >> $@
-	@echo "compile_commands.json generated successfully!"
+	@echo "compile_commands.json generated!"
