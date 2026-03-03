@@ -30,7 +30,7 @@ re: fclean all compile_commands.json
 compile_commands: compile_commands.json
 
 compile_commands.json: Makefile
-	@rm compile_commands.json
+	@rm -rf compile_commands.json
 	@echo "Generating compile_commands.json at root..."
 	@rm -f $@
 	@echo '[' > $@
