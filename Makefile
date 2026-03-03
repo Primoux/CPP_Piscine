@@ -29,16 +29,36 @@ re: fclean all compile_commands.json
 
 compile_commands: compile_commands.json
 
-compile_commands.json:
+compile_commands.json: Makefile
+	@rm compile_commands.json
 	@echo "Generating compile_commands.json at root..."
 	@rm -f $@
 	@echo '[' > $@
 	@first=1; \
 	for src in $$(find . -name '*.cpp' -type f | grep -v '.build'); do \
-		inc="-I$$(dirname $$src)/inc"; \
-		for classdir in $$(find $$(dirname $$src) -path '*/class/*' -type d 2>/dev/null); do \
-			inc="$$inc -I$$classdir"; \
+		srcdir=$$(dirname $$src); \
+		inc=""; \
+		current=$$srcdir; \
+		found_class=0; \
+		while [ "$$current" != "." ]; do \
+			if [ -d "$$current/class" ]; then \
+				basedir=$$current; \
+				found_class=1; \
+				break; \
+			fi; \
+			current=$$(dirname $$current); \
 		done; \
+		[ $$found_class -eq 0 ] && basedir=.; \
+		if [ -d "$$basedir/inc" ]; then \
+			inc="-I$$basedir/inc"; \
+		fi; \
+		if [ -d "$$basedir/class" ]; then \
+			for classdir in $$basedir/class/*/; do \
+				if [ -d "$$classdir" ]; then \
+					inc="$$inc -I$$classdir"; \
+				fi; \
+			done; \
+		fi; \
 		if [ $$first -eq 1 ]; then \
 			first=0; \
 		else \
