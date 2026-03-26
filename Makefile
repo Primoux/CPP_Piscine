@@ -23,47 +23,5 @@ fclean:
 		echo "Full cleaning in $$dir"; \
 		$(MAKE) -C $$dir fclean --no-print-directory; \
 	done
-	rm -rf compile_commands.json
 
-re: fclean all compile_commands.json
-
-compile_commands: compile_commands.json Makefile
-
-compile_commands.json: 
-	@echo "Generating compile_commands.json at root..."
-	@rm -f $@
-	@echo '[' > $@
-	@first=1; \
-	for src in $$(find . -name '*.cpp' -type f | grep -v '.build'); do \
-		srcdir=$$(dirname $$src); \
-		inc=""; \
-		current=$$srcdir; \
-		found_class=0; \
-		while [ "$$current" != "." ]; do \
-			if [ -d "$$current/class" ]; then \
-				basedir=$$current; \
-				found_class=1; \
-				break; \
-			fi; \
-			current=$$(dirname $$current); \
-		done; \
-		[ $$found_class -eq 0 ] && basedir=.; \
-		if [ -d "$$basedir/inc" ]; then \
-			inc="-I$$basedir/inc"; \
-		fi; \
-		if [ -d "$$basedir/class" ]; then \
-			for classdir in $$basedir/class/*/; do \
-				if [ -d "$$classdir" ]; then \
-					inc="$$inc -I$$classdir"; \
-				fi; \
-			done; \
-		fi; \
-		if [ $$first -eq 1 ]; then \
-			first=0; \
-		else \
-			echo ',' >> $@; \
-		fi; \
-		printf '  {"directory": "%s", "command": "c++ -std=c++98 -Wall -Wextra -Werror %s -c %s", "file": "%s"}\n' "$(PWD)" "$$inc" "$$src" "$$src" >> $@; \
-	done
-	@echo ']' >> $@
-	@echo "compile_commands.json generated!"
+re: fclean all c
