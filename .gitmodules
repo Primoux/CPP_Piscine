@@ -1,24 +1,32 @@
 [submodule "CPP_Module_00"]
 	path = CPP_Module_00
 	url = git@github.com:Primoux/CPP_Module_00.git
+	branch = main
 [submodule "CPP_Module_01"]
 	path = CPP_Module_01
 	url = git@github.com:Primoux/CPP_Module_01.git
+	branch = main
 [submodule "CPP_Module_02"]
 	path = CPP_Module_02
 	url = git@github.com:Primoux/CPP_Module_02.git
+	branch = main
 [submodule "CPP_Module_03"]
 	path = CPP_Module_03
 	url = git@github.com:Primoux/CPP_Module_03.git
+	branch = main
 [submodule "CPP_Module_04"]
 	path = CPP_Module_04
 	url = git@github.com:Primoux/CPP_Module_04.git
+	branch = main
 [submodule "CPP_Module_05"]
 	path = CPP_Module_05
 	url = git@github.com:Primoux/CPP_Module_05.git
+	branch = main
 [submodule "CPP_Module_06"]
 	path = CPP_Module_06
 	url = git@github.com:Primoux/CPP_Module_06.git
+	branch = main
 [submodule "CPP_Module_07"]
 	path = CPP_Module_07
 	url = git@github.com:Primoux/CPP_Module_07.git
+	branch = main
