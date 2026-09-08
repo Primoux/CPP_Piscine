@@ -34,3 +34,6 @@
 	path = CPP_Module_08
 	url = git@github.com:Primoux/CPP_Module_08.git
 	branch = main
+[submodule "CPP_Module_09"]
+	path = CPP_Module_09
+	url = git@github.com:Primoux/CPP_Module_09.git
